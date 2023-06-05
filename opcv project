@@ -1,0 +1,22 @@
+ui->statusbar->showMessage("调用打开测试文件功能正常！");
+
+    //实现
+    srcImg = cv::imread("lena.jpg");
+    if(!srcImg.data)
+    {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle(tr("警告"));
+        msgBox.setText(tr("默认的测试文件不存在，可以用以下两种方式的一种；"
+                          "1）复制一个文件到当前目录下，并命名为lena.jpg，"
+                          "2）使用自定义方式打开一个自定义文件。"));
+        msgBox.exec();
+    }
+    else
+    {
+        cvtColor(srcImg,srcImg,cv::COLOR_BGR2RGB);
+        img = QImage((const unsigned char*)(srcImg.data),srcImg.cols,srcImg.rows,
+                     srcImg.cols*srcImg.channels(), QImage::Format_RGBA8888);
+        ui->srclabel->clear();
+        img = img.scaled(ui->srclabel->width(),ui->srclabel->height());
+        ui->srclabel->setPixmap(QPixmap::fromImage(img));
+    }
